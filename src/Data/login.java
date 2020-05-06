@@ -173,6 +173,7 @@ public class login extends javax.swing.JFrame {
             if(rs.next())
             {
                 JOptionPane.showMessageDialog(null,"Username and Password Matched");
+                new Registration().setVisible(true);
             }
             else
             {
