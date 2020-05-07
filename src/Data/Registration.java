@@ -106,6 +106,11 @@ public class Registration extends javax.swing.JFrame {
         });
 
         delete.setText("Delete");
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -176,7 +181,6 @@ public class Registration extends javax.swing.JFrame {
                     .addComponent(course, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(43, 43, 43)
@@ -407,6 +411,45 @@ public class Registration extends javax.swing.JFrame {
             Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_updateActionPerformed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel df=(DefaultTableModel)jTable1.getModel();
+        int selectedIndex=jTable1.getSelectedRow();
+        
+        try {
+            int id=Integer.parseInt(df.getValueAt(selectedIndex,0).toString());
+            
+            int dialogResult = JOptionPane.showConfirmDialog(null,"Do you want to delete the records","Warning",JOptionPane.YES_NO_OPTION);
+            if(dialogResult==JOptionPane.YES_OPTION)
+            {
+                
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection con =DriverManager.getConnection("jdbc:mysql://localhost:3306/logindatabase","root","");
+                    String sql="delete from student where id=?";
+                    PreparedStatement pst=con.prepareStatement(sql);
+            
+                    pst.setInt(1, id);
+                    pst.executeUpdate();
+            
+                    JOptionPane.showMessageDialog(this,"Succesfully Deleted");
+                    table_details();
+            
+                    name.setText("");
+                    address.setText("");
+                    state.setText("");
+                    gender.setText("");
+                    course.setText("");
+                    dob.setText("");
+                    email.setText("");
+                    ph.setText("");
+                    name.requestFocus();
+                
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_deleteActionPerformed
 
     /**
      * @param args the command line arguments
